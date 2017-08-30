@@ -1,0 +1,2 @@
+<!-- <scheduler>http://nci.goofyxgridathome.net/goofyx_grid_nci_cgi/cgi</scheduler> -->
+<link rel="boinc_scheduler" href="http://nci.goofyxgridathome.net/goofyx_grid_nci_cgi/cgi">

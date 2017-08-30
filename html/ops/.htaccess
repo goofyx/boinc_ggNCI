@@ -1,0 +1,6 @@
+
+AuthName "goofyx_grid_nci"
+AuthType Basic
+AuthUserFile /home/boincadm/goofyx_grid_nci//html/ops/.htpasswd
+require valid-user
+
