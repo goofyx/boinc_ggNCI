@@ -191,7 +191,10 @@ function get_top_items($is_team, $appid, $is_total, $offset) {
 
 $is_team        = get_int('is_team', true);
 $appid          = get_int('appid', true);
-$is_total       = get_int('is_total', true);
+	
+	$is_total       = get_int('is_total', true);
+	if ($is_total == '') $is_total = 0;
+	
 $items_per_page = 20;
 $offset         = get_int('offset', true);
 
