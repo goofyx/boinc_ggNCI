@@ -1,0 +1,11 @@
+<version>
+   <file>
+      <physical_name>monkeys_v1_1000_arm-android-linux-gnu</physical_name>
+      <main_program/>
+      <copy_file/>
+    </file>
+    <file>
+      <physical_name>job_monkeys_v1.xml</physical_name>
+      <logical_name>job.xml</logical_name>
+   </file>
+</version>
