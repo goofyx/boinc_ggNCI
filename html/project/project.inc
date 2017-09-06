@@ -27,10 +27,10 @@ define("LANGUAGE_FILE", "languages.txt");
 
 //-------------- contact info
 
-define("SYS_ADMIN_EMAIL", "admin@$goofyxgridathome.net");
-define("UOTD_ADMIN_EMAIL", "admin@$goofyxgridathome.net");
+define("SYS_ADMIN_EMAIL", "admin@goofyxgridathome.net");
+define("UOTD_ADMIN_EMAIL", "admin@goofyxgridathome.net");
     // who gets emails about user of the day pool running low?
-define("POST_REPORT_EMAILS", "admin@$goofyxgridathome.net");
+define("POST_REPORT_EMAILS", "admin@goofyxgridathome.net");
     // Email addresses separated by pipe ( | ) that will receive user reports
     // of offensive forum posts.
 
@@ -208,7 +208,6 @@ function project_forum_post_rules() {
 
 //-------------- Support for per-app credit
 
-if (0) {
 
 // show project-specific credit on user/team pages
 //
@@ -232,6 +231,7 @@ function show_app_credit_user($user, $app_name, $appids) {
         " ($n tasks)"
     );
 }
+	
 function show_app_credit_team($team, $app_name, $appids) {
     $t = 0;
     $a = 0;
@@ -260,9 +260,11 @@ function show_app_credit_team($team, $app_name, $appids) {
 // - a short name, used in badge names.  Don't use "total".
 //
 $sub_projects = array(
-    array("name" => "Remote Test", "short_name" => "RT", "appids" => array(16)),
-    array("name" => "Uppercase", "short_name" => "UC", "appids" => array(1, 25)),
-);
+     array("name" => "Monkeys_v1", "short_name" => "monkeys_v1", "appids" => array(5)),
+     array("name" => "Monkeys_v2", "short_name" => "monkeys_v2", "appids" => array(6)),
+     array("name" => "Monkeys_v3", "short_name" => "monkeys_v3", "appids" => array(7)),
+     array("name" => "Monkeys_v4", "short_name" => "monkeys_v4", "appids" => array(8))
+ );
 
 function project_user_credit($user){
     global $sub_projects;
@@ -278,6 +280,5 @@ function project_team_credit($team) {
     }
 }
 
-}   // if(0)
 
 ?>
