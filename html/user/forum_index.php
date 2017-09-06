@@ -28,9 +28,10 @@ check_get_args(array("read", "return", "tnow", "ttok"));
 $user = get_logged_in_user(false);
 BoincForumPrefs::lookup($user);
 
-if (DISABLE_FORUMS && !is_admin($user)) {
-    error_page("Forums are disabled");
-}
+
+//if (DISABLE_FORUMS && !is_admin($user)) {
+//    error_page("Forums are disabled");
+//}
 
 // Process request to mark all posts as read
 //
