@@ -6,3 +6,5 @@ archives_results/*
 html/cache/*
 html/user_profile/*
 html/stat*
+run_state_ggNCI.xml
+stop_
