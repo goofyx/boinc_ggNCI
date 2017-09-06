@@ -12,8 +12,8 @@ require_once("../inc/util.inc");
 
 //-------------- Project name and owner
 
-define("PROJECT", "REPLACE WITH PROJECT NAME");
-define("COPYRIGHT_HOLDER", "REPLACE WITH COPYRIGHT HOLDER");
+define("PROJECT", "GoofyxGrid@Home NCI");
+define("COPYRIGHT_HOLDER", "Goofyx");
 
 //-------------- URLs and directories
 
@@ -27,10 +27,10 @@ define("LANGUAGE_FILE", "languages.txt");
 
 //-------------- contact info
 
-define("SYS_ADMIN_EMAIL", "admin@$master_url");
-define("UOTD_ADMIN_EMAIL", "admin@$master_url");
+define("SYS_ADMIN_EMAIL", "admin@$goofyxgridathome.net");
+define("UOTD_ADMIN_EMAIL", "admin@$goofyxgridathome.net");
     // who gets emails about user of the day pool running low?
-define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
+define("POST_REPORT_EMAILS", "admin@$goofyxgridathome.net");
     // Email addresses separated by pipe ( | ) that will receive user reports
     // of offensive forum posts.
 
@@ -48,7 +48,7 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
 define("FORUM_QA_MERGED_MODE", true);
     // Set to true to merge Message boards and Q&A section
-define ("DISABLE_PROFILES", true);
+define ("DISABLE_PROFILES", false);
     // enable profiles only after enabling reCAPTCHA
     // http://boinc.berkeley.edu/trac/wiki/ProtectionFromSpam
 define("USE_STOPFORUMSPAM", true);
@@ -64,7 +64,7 @@ define('GFX_CPU_PREFS', false);
     // user can limit % CPU used by screensaver
     // (lower frame rate if exceeded)
     // This is probably irrelevant if your screensaver uses OpenGL
-define('APP_SELECT_PREFS', false);
+define('APP_SELECT_PREFS', true);
     // user can choose which apps to run
 define('NON_GRAPHICAL_PREF', false);
     // user can choose to run faster non-graphical app versions if available
@@ -79,27 +79,33 @@ define('MAX_CPUS_PREF', false);
 // and complete the function definition based on your SMTP server
 // (not all fields may be needed)
 //
-if (0) {
+
 function make_php_mailer() {
     $mail = new PHPMailer();
     $mail->IsSMTP();
-    //$mail->Mailer = 'smtp';
+//    $mail->SMTPOptions = array(
+//      'ssl' => array(
+//        'verify_peer' => false,
+//        'verify_peer_name' => false,
+//        'allow_self_signed' => true
+//      )
+//   );
+//    $mail->Mailer = 'smtp';
+//    $mail->SMTPDebug = 2;
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = "tls";
+//    $mail->SMTPAutoTLS = false;
+//    $mail->Host = "mail.goofyxgridathome.net";
     $mail->Host = "smtp.gmail.com";
     $mail->Port = 587;
-    $mail->Username = "john.doe@gmail.com";
-    $mail->Password = "xxx";
-        // Google's application-specific password,
-        // if you are using the 2-Step Verification: 16 characters, no spaces.
-        // OR: Put here the regular Gmail password if you are not using the
-        // 2-Step Verification with your Gmail account.
-        // See https://support.google.com/accounts/answer/185833?hl=en";
-    $mail->SetFrom('admin@boincproject.com', 'John Doe');
-    $mail->AddReplyTo("admin@boincproject.com", "John Doe");
-    $mail->From = "admin@boincproject.com";
+//    $mail->Username = "admin@goofyxgridathome.net";
+//    $mail->Password = "?????";
+    $mail->Username = "krzysiek.faryna@gmail.com";
+    $mail->Password = "Antologia1";
+    $mail->SetFrom('admin@goofyxgridathome.net', 'GoofyGrid@Home NCI');
+    $mail->AddReplyTo("admin@goofyxgridathome.net", "GoofyxGrid@Home NCI");
+    $mail->From = "admin@goofyxgridathome.net";
     return $mail;
-}
 }
 
 //-------------- Header and footer
