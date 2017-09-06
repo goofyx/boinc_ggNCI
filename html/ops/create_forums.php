@@ -21,7 +21,7 @@
 // TODO: rewrite this using the DB abstraction layer
 // First, edit the set of forums (below) and remove the following line
 
-die("edit script to use your forum names, and remove the die()\n");
+//die("edit script to use your forum names, and remove the die()\n");
 
 $cli_only = true;
 require_once("../inc/forum_db.inc");
