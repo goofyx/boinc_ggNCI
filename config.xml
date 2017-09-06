@@ -44,9 +44,12 @@
 	
     <credit_by_app/>
     <dont_store_success_stderr/>
+	
+    <non_cpu_intensive>1</non_cpu_intensive>
 		
-    </config>
-<tasks>
+  </config>
+  
+  <tasks>
     <task>
       <cmd>antique_file_deleter -d 1</cmd>
       <period>1 hours</period>
