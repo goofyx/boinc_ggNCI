@@ -7,19 +7,22 @@
   $nr_aplikacji = $argv[1];
   $ile_znakow=$argv[2];
   
+  include( "monkeys_db_generator.php" );
+  include( "monkeys_katalogi.php" );  
+  
   echo "START MONKEYS_".$nr_aplikacji."_ANALYZER: ".$ile_znakow."\n";
   
   $ilosc_znakow=$ile_znakow;
-  $plik_lock = "/home/boincadm/gcc/pid_goofyxGrid/monkeys_".$nr_aplikacji."_analyser_L".$ile_znakow.".lock";
+  $plik_lock = $katalog_pid ."/monkeys_".$nr_aplikacji."_analyser_L".$ile_znakow.".lock";
   if (file_exists($plik_lock)){
    exit;
   }
   
   $plik = file_put_contents( $plik_lock, "LOCK" );
 
-  $katalog_zrodlowy = "/home/boincadm/gcc/sample_results";
-  $katalog_docelowy = "/home/boincadm/gcc/sample_results_analyzed";
-  $katalog_noUser = "/home/boincadm/gcc/sample_results_noUser";
+  $katalog_zrodlowy = $katalog_sr;
+  $katalog_docelowy = $katalog_srAnalyzed;
+  $katalog_noUser = $katalog_domowy."/sample_results_noUser";
   
   
   $licznik = 0;
@@ -27,13 +30,13 @@
   $rozpoczeto = date("Y-m-d H:i:s");
   
   
-   $db_trafienia = new mysqli("localhost", "boincadm", "boincadm_Haslo123", "monkeys_".$nr_aplikacji."_trafienia");
+   $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
    if ($db_trafienia->connect_error) {
      die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
    }
  
  
-  $db_projekt = new mysqli("localhost", "boincadm", "boincadm_Haslo123", "gcc");
+  $db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza, $db_generator_port);
   if ($db_projekt->connect_error)  {
     die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
   }         
