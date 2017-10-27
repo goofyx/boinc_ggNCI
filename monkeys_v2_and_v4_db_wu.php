@@ -4,9 +4,13 @@
     
   $nr_aplikacji = $argv[1];
   $nr_aplikacji_templates = $argv[1];
+
+	include( "monkeys_db_generator.php" );
+	include( "monkeys_katalogi.php" );  
+	
   $nr_aplikacji_wu =  str_replace( "_", "-", $nr_aplikacji );
   
-  $plik_lock = "/home/boincadm/gcc/pid_goofyxGrid/monkeys_".$nr_aplikacji."_db_wu.lock";
+  $plik_lock = "/home/boincadm/goofyx_grid_nci/pid_ggNCI/monkeys_".$nr_aplikacji."_db_wu.lock";
   if (file_exists($plik_lock)){
    exit;
   }  
@@ -15,12 +19,10 @@
 
   echo "START MONKEYS_".$nr_aplikacji."_DB_WU\n";
 
-  $db_generator1 = new mysqli("localhost", "boincadm","boincadm_Haslo123", "monkeys_vX_generators");
+  $db_generator1 = new mysqli($db_generator_serwer, $db_generator_user, $db_generator_haslo, "monkeys_vX_generators", $db_generator_port);
   if ($db_generator1->connect_error) {
      die("Błąd połaczenia db_generator1: ".$db_generator1->connect_error);
   }
-
-  $katalog_domowy = "/home/boincadm/gcc/";  
 
   $sql = "SELECT * FROM `generator_".$nr_aplikacji."` WHERE `nastepna` <= `max_serii` limit 0, 1";  
   $wynik_seria = $db_generator1->query($sql);
@@ -39,7 +41,7 @@
     $punkty = 10;
  
     $ilosc_wu_start =  1;
-    $ilosc_wu_koniec = 1000; //$seriaDB["ilosc_wu"];
+    $ilosc_wu_koniec = $seriaDB["ilosc_wu"];
     $ilosc_wu_seria =  $ilosc_wu_koniec;
 
     $tylkoPoczatek = 1; //$seriaDB["tylko_poczatek"];
@@ -110,7 +112,7 @@
 
 	$plik = file_put_contents( $katalog_domowy."download_temp/".$nazwa_pliku_wu, "".$szukane_slowo." ".$ilosc_slow." ".$ileZgodnychZnakow." ".$tylkoPoczatek." ".$czas_przerwy." ".$jakie_losowanie );
 
-	$polecenie = "./bin/stage_file /home/boincadm/gcc/download_temp/".$nazwa_pliku_wu;
+	$polecenie = "./bin/stage_file /home/boincadm/goofyx_grid_nci/download_temp/".$nazwa_pliku_wu;
 	exec( $polecenie );
 	$polecenie = "./bin/create_work --delay_bound ".$waznosc_wu_sekundy." -appname monkeys_".$nr_aplikacji." -wu_name ".$nazwa_pliku_wu." --max_error_results 1 --max_success_results 1 -wu_template templates/".$nazwa_pliku_templatki." -result_template templates/monkeys_".$nr_aplikacji."_result ".$nazwa_pliku_wu;
 	exec( $polecenie );

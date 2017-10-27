@@ -1,7 +1,10 @@
 <?php
 
   echo "START DELETE WRONG RECORD MONKEYS_v2_ANALYZER\n";
-  $db_trafienia = new mysqli("localhost", "boincadm","boincadm_Haslo123", "monkeys_v2_trafienia");
+  
+  include( "monkeys_db_trafienia.php" );
+  
+  $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_v3_trafienia", $db_trafienia_port); 
   if ($db_trafienia->connect_error) {
     die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
   }
@@ -15,7 +18,7 @@
 
 
   echo "START DELETE WRONG RECORD MONKEYS_v4_ANALYZER\n";
-  $db_trafienia = new mysqli("localhost", "boincadm","boincadm_Haslo123", "monkeys_v4_trafienia");
+  $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_v3_trafienia", $db_trafienia_port); 
   if ($db_trafienia->connect_error) {
     die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
   }

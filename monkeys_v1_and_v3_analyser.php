@@ -7,7 +7,8 @@
   $nr_aplikacji = $argv[1];
   $ile_znakow=$argv[2];
   
-  include( "monkeys_db_generator.php" );
+  include( "monkeys_db_trafienia.php" );
+  include( "monkeys_db_projekt.php" );
   include( "monkeys_katalogi.php" );  
   
   echo "START MONKEYS_".$nr_aplikacji."_ANALYZER: ".$ile_znakow."\n";
@@ -36,12 +37,12 @@
    }
  
  
-  $db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza, $db_generator_port);
+  $db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza, $db_projekt_port);
   if ($db_projekt->connect_error)  {
     die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
   }         
        
-  $slownik = file( '/home/boincadm/gcc/monkeys_'.$ile_znakow.'_en.dic' );
+  $slownik = file( $katalog_domowy.'/monkeys_'.$ile_znakow.'_en.dic' );
   foreach($slownik as $wyraz)
     $slownik[$wyraz] = 1;
         
@@ -55,6 +56,7 @@
 	   $wynik_v1 = file($katalog_zrodlowy."/".$plik);
 	   
 	   $licznik++;
+	 echo "Plik:".$plik."\n"; 
 	 
 //          2. porównania ze słownikiemzapis do bazy pozostałych po explode spacji + nazwa usera
 	if (count($wynik_v1) > 0) {	   
@@ -101,8 +103,10 @@
 		  if (!$db_trafienia->query( $sql ) === TRUE ) echo "Błąd dodawanie do bazy: ".$db_trafienia->error."\n";
 	       }else {
 		  $nazwa_usera = "";
-		  if (!rename($katalog_zrodlowy."/".$plik, $katalog_noUser."/".$plik)){       
-	          } 
+		  if (!copy($katalog_zrodlowy."/".$plik, $katalog_noUser."/".$plik)){       
+	          }else{
+				  unlink($katalog_zrodlowy."/".$plik);
+			  }				  
 	       }
 	       
  	      }
@@ -115,10 +119,12 @@
          /////       
     }  
       
-         if (!rename($katalog_zrodlowy."/".$plik, $katalog_docelowy."/".$plik))
+         if (!copy($katalog_zrodlowy."/".$plik, $katalog_docelowy."/".$plik))
          {       
-	   echo "Błąd kopiowania/przenoszenia pliku: ".$plik." do: ".$katalog_docelowy."/".$plik."\n";
-         }
+			echo "Błąd kopiowania/przenoszenia pliku: ".$plik." do: ".$katalog_docelowy."/".$plik."\n";
+         }else{
+		    unlink($katalog_zrodlowy."/".$plik);
+		 }
       
     
          

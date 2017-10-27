@@ -7,4 +7,6 @@
  	$katalog_srArchiwum = $katalog_domowy."/dane_goofyx_grid";
     $katalog_templates = "/home/boincadm/goofyx_grid_nci/templates";
     $katalog_download_temp = "/home/boincadm/goofyx_grid_nci/download_temp";
+	$katalog_archives_results = $katalog_domowy."/archives_results";
+	$katalog_doAnalizy = $katalog_domowy."/sample_results_doAnalizy";
 ?>

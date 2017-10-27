@@ -27,7 +27,7 @@
  // echo $sql."\n"; 
   $wynik_seria = $db_generator1->query($sql);
    
-  if ($wynik_seria->num_rows > 0) 
+  if (mysqli_num_rows($wynik_seria) > 0) 
   {
     $seriaDB = $wynik_seria->fetch_assoc();
     
@@ -44,10 +44,10 @@
     $ilosc_slow = 3600;
     $czas_przerwy = 1;
 
-if ($nr_aplikacji == 'v1_nci'){
+if ($nr_aplikacji == 'v1'){
     $jakie_losowanie = 1; 
 	$nr_aplikacji_wu = 'v1';
-  } elseif ($nr_aplikacji == 'v3_nci') {
+  } elseif ($nr_aplikacji == 'v3') {
     $jakie_losowanie = 2; 
 	$nr_aplikacji_wu = 'v3';
   }  else {
@@ -104,7 +104,7 @@ if ($nr_aplikacji == 'v1_nci'){
 	$polecenie = "./bin/create_work --delay_bound ".$waznosc_wu_sekundy." -appname monkeys_".$nr_aplikacji_wu." -wu_name ".$nazwa_pliku_wu." --max_error_results 1 --max_success_results 1 -wu_template templates/".$nazwa_pliku_templatki.$ilosc_znakow." -result_template templates/monkeys_".$nr_aplikacji_wu."_result ".$nazwa_pliku_wu;
 	exec( $polecenie );
 	
-        if ($liczba % 100 == 0){
+        if ($liczba % 10000 == 0){
                 echo "Zrobiono: ".$liczba."\n";
         }
       }

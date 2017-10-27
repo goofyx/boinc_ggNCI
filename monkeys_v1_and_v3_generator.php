@@ -20,7 +20,7 @@
   echo "START MONKEYS_".$nr_aplikacji."_GENERATOR\n";
   
  
-  $db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza);
+  $db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza, $db_projekt_port);
   if ($db_projekt->connect_error)  {
     die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
   }         

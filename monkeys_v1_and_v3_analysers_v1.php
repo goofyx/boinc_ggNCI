@@ -1,6 +1,7 @@
 <?php
 
   echo "START MONKKES_V1_ANALYSERS\n";
+  include( "monkeys_katalogi.php" );  
   system( "php ".$katalog_domowy."/monkeys_v1_and_v3_analyser.php v1 6" );
   system( "php ".$katalog_domowy."/monkeys_v1_and_v3_analyser.php v1 7" );
   system( "php ".$katalog_domowy."/monkeys_v1_and_v3_analyser.php v1 8" );
