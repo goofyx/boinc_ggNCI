@@ -13,7 +13,7 @@ require_once("../inc/util.inc");
 //-------------- Project name and owner
 
 define("PROJECT", "GoofyxGrid@Home NCI");
-define("COPYRIGHT_HOLDER", "Goofyx");
+define("COPYRIGHT_HOLDER", "Goofyx Prodakszyn");
 
 //-------------- URLs and directories
 
@@ -81,25 +81,13 @@ define('MAX_CPUS_PREF', false);
 //
 
 function make_php_mailer() {
-    $mail = new PHPMailer();
+    $mail = new PHPMailer(true);
     $mail->IsSMTP();
-//    $mail->SMTPOptions = array(
-//      'ssl' => array(
-//        'verify_peer' => false,
-//        'verify_peer_name' => false,
-//        'allow_self_signed' => true
-//      )
-//   );
-//    $mail->Mailer = 'smtp';
-//    $mail->SMTPDebug = 2;
+    $mail->Mailer = 'smtp';
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = "tls";
-//    $mail->SMTPAutoTLS = false;
-//    $mail->Host = "mail.goofyxgridathome.net";
     $mail->Host = "smtp.gmail.com";
     $mail->Port = 587;
-//    $mail->Username = "admin@goofyxgridathome.net";
-//    $mail->Password = "?????";
     $mail->Username = "krzysiek.faryna@gmail.com";
     $mail->Password = "Antologia1";
     $mail->SetFrom('admin@goofyxgridathome.net', 'GoofyGrid@Home NCI');

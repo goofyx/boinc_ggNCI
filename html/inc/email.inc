@@ -26,7 +26,8 @@ require_once("../project/project.inc");
 //
 function send_email($user, $subject, $body, $body_html=null) {
     if (function_exists("make_php_mailer")) {
-		require_once("/home/boincadm/goofyx_grid_nci/html/inc/phpmailerclass.phpmailer.php");
+		
+		require_once("../inc/phpmailer/PHPMailerAutoload.php");
         //require_once("../inc/phpmailer/class.phpmailer.php");
         $mail = make_php_mailer();
         $mail->AddAddress($user->email_addr, $user->name);
