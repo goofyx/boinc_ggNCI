@@ -23,11 +23,11 @@
 
   //$katalog_domowy = "/home/boincadm/goofyx_grid_nci/";  
 
-  $sql = "SELECT * FROM `generator_".$nr_aplikacji."` WHERE `nastepna` <= `max_serii` limit 0, 1";  
- // echo $sql."\n"; 
+  $sql = "SELECT * FROM `generator_".$nr_aplikacji."_nci` WHERE `nastepna` <= `max_serii` limit 0, 1";  
+  echo $sql."\n"; 
   $wynik_seria = $db_generator1->query($sql);
-   
-  if (mysqli_num_rows($wynik_seria) > 0) 
+    
+  if ($wynik_seria->num_rows > 0) 
   {
     $seriaDB = $wynik_seria->fetch_assoc();
     
@@ -109,12 +109,12 @@ if ($nr_aplikacji == 'v1'){
         }
       }
 
-//	echo "2. Zakończono generowanie WU : ".$liczba." na ".$ilosc_wu_koniec."\n";
+	echo "2. Zakończono generowanie WU : ".$liczba." na ".$ilosc_wu_koniec."\n";
 		
     }
     
     //update nastepny   
-    $sql = "UPDATE `generator_".$nr_aplikacji."` SET `nastepna`= '".++$seriaDB["nastepna"]."' WHERE `seria`= '".$seriaDB["seria"]."'";  
+    $sql = "UPDATE `generator_".$nr_aplikacji."_nci` SET `nastepna`= '".++$seriaDB["nastepna"]."' WHERE `seria`= '".$seriaDB["seria"]."'";  
     echo $sql;
     if ($db_generator1->query($sql) === TRUE) {
       echo "Zaktualizowano wpis dla:".$seriaDB["seria"];
