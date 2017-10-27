@@ -9,7 +9,6 @@
         <upload_url>http://nci.goofyxgridathome.net/goofyx_grid_nci_cgi/file_upload_handler</upload_url>
         <disable_account_creation>0</disable_account_creation>
         <uldl_dir_fanout>1024</uldl_dir_fanout>
-        <disable_web_account_creation>0</disable_web_account_creation>
         <download_url>http://nci.goofyxgridathome.net/download</download_url>
         <db_user>boincadm</db_user>
         <log_dir>/home/boincadm/goofyx_grid_nci/log_ggNCI</log_dir>
@@ -19,14 +18,20 @@
         <master_url>http://nci.goofyxgridathome.net/</master_url>
         <host>ggNCI</host>
         <db_name>goofyx_grid_nci</db_name>
+		
         <shmem_key>0x1111db04</shmem_key>
+		<feeder_query_size>5000</feeder_query_size>
+		<shmem_work_items>5000</shmem_work_items>
+		
         <show_results>1</show_results>
         <key_dir>/home/boincadm/goofyx_grid_nci/keys/</key_dir>
         <dont_generate_upload_certificates>1</dont_generate_upload_certificates>
         <ignore_upload_certificates>1</ignore_upload_certificates>
         <db_passwd>boincadm_Haslo123</db_passwd>
         <min_sendwork_interval>6</min_sendwork_interval>
-        <db_host>127.0.0.1</db_host>
+        <db_host>192.168.200.201:34011</db_host>
+<db_host_1>127.0.0.1</db_host_1>
+
         <daily_result_quota>500</daily_result_quota>
         <one_result_per_user_per_wu>0</one_result_per_user_per_wu>
         <max_wus_to_send>50</max_wus_to_send>		
@@ -34,6 +39,7 @@
 		<disable_account_creation/>		
 		<disable_account_creation_rpc/>
 		<disable_team_creation/>
+        <disable_web_account_creation>0</disable_web_account_creation>
 		
     <resend_lost_results>1</resend_lost_results>
     <send_result_abort>1</send_result_abort>
@@ -46,6 +52,9 @@
     <dont_store_success_stderr/>
 	
     <non_cpu_intensive>1</non_cpu_intensive>
+		
+    <next_rpc_delay>600</next_rpc_delay>
+    <maintenance_delay>900</maintenance_delay>
 		
   </config>
   
@@ -119,20 +128,65 @@
       <cmd>run_in_ops ./delete_spammers.php --profiles --forums --teams</cmd>
       <output>delete_spammers.out</output>
       <period>1 hour</period>
-      <disabled>1</disabled>
+      <disabled>0</disabled>
     </task>
    </tasks>
     <daemons>
+	
    <daemon>
       <cmd>feeder -d 1 --purge_stale 15 --priority_order_create_time --allapps</cmd>
-      <disabled>0</disabled>
+      <disabled>1</disabled>
     </daemon>
         <daemon>
             <cmd>transitioner -d 1 </cmd>
+            <disabled>0</disabled>
         </daemon>
         <daemon>
             <cmd>file_deleter -d 1 </cmd>
         </daemon>
+        <daemon>
+            <cmd>db_purge -d 1 --no_archive --min_age_days 14</cmd>
+            <disabled>1</disabled>
+        </daemon>
+		
+	<daemon>
+      <cmd>monkeys_v1_validator -d 1 --credit_from_wu --app monkeys_v1</cmd>
+      <disabled>0</disabled>
+    </daemon>
+    <daemon>
+      <cmd>monkeys_v1_assimilator -d 1 --app monkeys_v1</cmd>
+      <disabled>0</disabled>
+    </daemon>   
+    
+   <daemon>
+      <cmd>monkeys_v2_validator -d 1 --credit_from_wu --app monkeys_v2</cmd>
+      <disabled>0</disabled>
+    </daemon>
+    <daemon>
+      <cmd>monkeys_v2_assimilator -d 1 --app monkeys_v2</cmd>
+      <disabled>0</disabled>
+    </daemon> 
+    
+    <daemon>
+      <cmd>monkeys_v3_validator -d 1 --credit_from_wu --app monkeys_v3</cmd>
+      <disabled>0</disabled>
+    </daemon>
+    <daemon>
+      <cmd>monkeys_v3_assimilator -d 1 --app monkeys_v3</cmd>
+      <disabled>0</disabled>
+    </daemon>  
+       
+  
+    <daemon>
+      <cmd>monkeys_v4_validator -d 1 --credit_from_wu --app monkeys_v4</cmd>
+      <disabled>0</disabled>
+    </daemon>
+    <daemon>
+      <cmd>monkeys_v4_assimilator -d 1 --app monkeys_v4</cmd>
+      <disabled>0</disabled>
+    </daemon>	
+		
+		
     </daemons>
 </boinc>
 
