@@ -31,14 +31,11 @@
   
   foreach (glob($katalog_zrodlowy."/*_".$nr_aplikacji."*") as $filename) {
   $plik = basename($filename);
-   $skladowe_nazwy = explode( "_", $plik);     
-
-
- 	  echo "Plik: ".$plik."\n";
    
-   if ( filesize($katalog_zrodlowy."/".$plik) > 0 )
+   if ( filesize($katalog_zrodlowy."/".$plik) > 30 )
    {
        
+ 	  echo "Plik START 1: ".$plik."\n";
          //////ANALIZA MONKEYS_V2
 //          1. wczytanie pliku do array
 	 $wynik_v2 = file($katalog_zrodlowy."/".$plik);
@@ -46,7 +43,7 @@
 //          2. usunięcie pozycji 1 i ostaniej
 	 unset($wynik_v2[ 0 ] );
 	 unset($wynik_v2[ count( $wynik_v2 ) ] );
-	 
+	 		
 //          3. zapis do bazy pozostałych po explode spacji + nazwa usera
 	if (count($wynik_v2) > 0) 	{	   
 	   	   
@@ -93,7 +90,7 @@
 	   	   
 	   
 	} else {
-// 	  echo "Plik: ".$plik." nie ma wyników\n";
+ 	  //echo "Plik: ".$plik." nie ma wyników\n";
 	}
 
 
@@ -102,17 +99,18 @@
 	
          /////       
     }    
-        if (!file_exists($katalog_zrodlowy."/".$plik)){
+        if (!file_exists($katalog_docelowy."/".$plik)){
 	  if (!copy($katalog_zrodlowy."/".$plik, $katalog_docelowy."/".$plik)){
 			echo "Błąd kopiowania/przenoszenia pliku: ".$plik." do: ".$katalog_docelowy."/".$plik."\n";
          }else{
+			//echo "skopiowano: ".$katalog_zrodlowy."/".$plik." <-> ".$katalog_docelowy."/".$plik."\n";
 		    unlink($katalog_zrodlowy."/".$plik);
 		 }   
         }else{
 		    unlink($katalog_zrodlowy."/".$plik);
 		 }
 	$licznik++; 
-  }  
+  }	 
   
   
    echo "plików: ".$licznik."\n";

@@ -36,7 +36,7 @@
     die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
   }         
        
-  $slownik = file( $katalog_domowy.'/monkeys_'.$ile_znakow.'_en.dic' );
+  $slownik = file( $katalog_domowy_skrypty.'/monkeys_'.$ile_znakow.'_en.dic' );
   foreach($slownik as $wyraz)
     $slownik[$wyraz] = 1;
         
@@ -50,7 +50,7 @@
 	   $wynik_v1 = file($katalog_zrodlowy."/".$plik);
 	   
 	   $licznik++;
-	 echo "Plik:".$plik."\n"; 
+	// echo "Plik:".$plik."\n"; 
 	 
 	 
 	if ($db_projekt->connect_error)  {
