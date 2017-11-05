@@ -3,20 +3,18 @@
   if (empty($argv[1])) die("Brak parametru nr_aplikacja\n");
     
   $nr_aplikacji = $argv[1];
+  
+  
+  include( "monkeys_db_trafienia.php" );
+  include( "monkeys_db_projekt.php" );
+  include( "monkeys_katalogi.php" );   
+  
 
   echo "START MONKEYS_".$nr_aplikacji."_ANALYZER\n";
-
-  $plik_lock = "/home/boincadm/goofyx_grid_nci/pid_ggNCI/monkeys_".$nr_aplikacji."_analyser.lock";
-  if (file_exists($plik_lock)){
-   exit;
-  }
-
-  $plik = file_put_contents( $plik_lock, "LOCK" );
-
   
-  $katalog_zrodlowy = "/home/boincadm/goofyx_grid_nci/sample_results";
-  $katalog_docelowy = "/home/boincadm/goofyx_grid_nci/sample_results_analyzed";
-  $katalog_noUser = "/home/boincadm/goofyx_grid_nci/sample_results_noUser";
+  $katalog_zrodlowy = $katalog_sr;
+  $katalog_docelowy = $katalog_srAnalyzed;
+  $katalog_noUser = $katalog_srNoUser;
   
   $licznik = 0;
   $rozpoczeto = date("Y-m-d H:i:s");
@@ -33,7 +31,11 @@
   
   foreach (glob($katalog_zrodlowy."/*_".$nr_aplikacji."*") as $filename) {
   $plik = basename($filename);
-   $skladowe_nazwy = explode( "_", $plik);       
+   $skladowe_nazwy = explode( "_", $plik);     
+
+
+ 	  echo "Plik: ".$plik."\n";
+   
    if ( filesize($katalog_zrodlowy."/".$plik) > 0 )
    {
        
@@ -83,9 +85,10 @@
 	    }	     
 	   } else {
 	     echo "Brak usera dla: ".$plik."\n";
-	     if (!rename($katalog_zrodlowy."/".$plik, $katalog_noUser."/".$plik)){       
-	      echo "Błąd kopiowania/przenoszenia pliku: ".plik." do: ".$katalog_noUser."/".$plik."\n";
-             } 
+	     if (!copy($katalog_zrodlowy."/".$plik, $katalog_noUser."/".$plik)){       
+	          }else{
+				  unlink($katalog_zrodlowy."/".$plik);
+			  }
 	   }	   	   	   
 	   	   
 	   
@@ -99,11 +102,15 @@
 	
          /////       
     }    
-        if (file_exists($katalog_zrodlowy."/".$plik)){
-	  if (!rename($katalog_zrodlowy."/".$plik, $katalog_docelowy."/".$plik)){       
-	    echo "Błąd kopiowania/przenoszenia pliku: ".$plik." do: ".$katalog_docelowy."/".$plik."\n";	
-	  }   
-        }
+        if (!file_exists($katalog_zrodlowy."/".$plik)){
+	  if (!copy($katalog_zrodlowy."/".$plik, $katalog_docelowy."/".$plik)){
+			echo "Błąd kopiowania/przenoszenia pliku: ".$plik." do: ".$katalog_docelowy."/".$plik."\n";
+         }else{
+		    unlink($katalog_zrodlowy."/".$plik);
+		 }   
+        }else{
+		    unlink($katalog_zrodlowy."/".$plik);
+		 }
 	$licznik++; 
   }  
   
@@ -113,10 +120,16 @@
    //zapis danych do przerobione  
 if ( $licznik > 0 ) { 
   $sql = "INSERT INTO przerobione ( rozpoczeto, zakonczono, przerobiono ) VALUES ( "."\"".$rozpoczeto."\"".", "."\"".date("Y-m-d H:i:s")."\"".", "."\"".$licznik."\""." );";	  
-#  echo "Zapytanie: ".$sql."\n"; 
+  echo "Zapytanie: ".$sql."\n"; 
+
+  $db_trafienia->close();
+  $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
+  if ($db_trafienia->connect_error) {
+    die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
+  }
   
   if ($db_trafienia->query( $sql ) === TRUE ) {
-//   		echo "Dodano wynik do bazy"."\n";
+   		echo "Dodano wynik do bazy"."\n";
   } else {
      echo "Błąd dodawania przerobu do bazy: ".$db_trafienia->error."\n";
   }
@@ -124,9 +137,6 @@ if ( $licznik > 0 ) {
   
   $db_trafienia->close(); 
   $db_projekt->close();
-
-  unlink($plik_lock);
-
   
   echo "KONIEC MONKEYS_".$nr_aplikacji."_ANALYZER\n";
 

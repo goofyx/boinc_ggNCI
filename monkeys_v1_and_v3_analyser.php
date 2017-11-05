@@ -14,16 +14,10 @@
   echo "START MONKEYS_".$nr_aplikacji."_ANALYZER: ".$ile_znakow."\n";
   
   $ilosc_znakow=$ile_znakow;
-  $plik_lock = $katalog_pid ."/monkeys_".$nr_aplikacji."_analyser_L".$ile_znakow.".lock";
-  if (file_exists($plik_lock)){
-   exit;
-  }
-  
-  $plik = file_put_contents( $plik_lock, "LOCK" );
 
   $katalog_zrodlowy = $katalog_sr;
   $katalog_docelowy = $katalog_srAnalyzed;
-  $katalog_noUser = $katalog_domowy."/sample_results_noUser";
+  $katalog_noUser = $katalog_srNoUser;
   
   
   $licznik = 0;
@@ -58,6 +52,10 @@
 	   $licznik++;
 	 echo "Plik:".$plik."\n"; 
 	 
+	 
+	if ($db_projekt->connect_error)  {
+		die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
+	}
 //          2. porównania ze słownikiemzapis do bazy pozostałych po explode spacji + nazwa usera
 	if (count($wynik_v1) > 0) {	   
 	// echo "SSSSS:".microtime(1)."\n";   	   
@@ -126,7 +124,6 @@
 		    unlink($katalog_zrodlowy."/".$plik);
 		 }
       
-    
          
 	$nazwa_usera = "";
   }    
@@ -134,11 +131,16 @@
   
 //zapis danych do przerobione 
 if ( $licznik > 0 ) { 
-    if ($db_trafienia->connect_error) {
-     die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
-   }  
+
+  $db_trafienia->close();
+  $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
+  if ($db_trafienia->connect_error) {
+    die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
+  }  
+  
    $sql = "INSERT INTO przerobione ( rozpoczeto, zakonczono, przerobiono, przerobiono_".$ile_znakow." ) VALUES ( "."\"".$rozpoczeto."\"".", "."\"".date("Y-m-d H:i:s")."\"".", "."\"".$licznik."\"".", "."\"".$licznik_2."\""." );";	        	        
   if ($db_trafienia->query( $sql ) === TRUE ) {
+   		echo "Dodano wynik do bazy"."\n";
   } else {
      echo "Błąd dodawania przerobu do bazy: ".$db_trafienia->error."\n";
   }
@@ -148,7 +150,6 @@ if ( $licznik > 0 ) {
   $db_projekt->close();
   
   unset( $slownik );
-  unlink($plik_lock);
   
   echo "KONIEC MONKEYS_".$nr_aplikacji."_ANALYZER: ".$ile_znakow."\n";
 
