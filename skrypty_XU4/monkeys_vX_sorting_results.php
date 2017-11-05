@@ -6,7 +6,7 @@
   
   
   $katalog_zrodlowy = $katalog_srAnalyzed;
-  $katalog_docelowy = $katalog_archives_results;
+  $katalog_docelowy = $katalog_archives_results_NAS4;
   
   $licznik = 0;
   foreach( new directoryiterator( $katalog_zrodlowy ) as $plik )
@@ -31,7 +31,7 @@
        
          if (!copy($katalog_zrodlowy."/".$plik, $katalog_pliku."/".$plik->getFileName() ) )
          {       
-	      echo "Błąd kopiowania/przenoszenia pliku: ".plik." do: ".$katalog_pliku."/".$plik->getFileName()."\n";
+	      echo "Błąd kopiowania/przenoszenia pliku: ".$plik." do: ".$katalog_pliku."/".$plik->getFileName()."\n";
          } else {        
             $licznik++;
 			unlink($katalog_zrodlowy."/".basename($plik));
