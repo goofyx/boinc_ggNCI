@@ -14,7 +14,7 @@
   if (file_exists($plik_lock)){
    exit;
   }  
- // $plik = file_put_contents( $plik_lock, "LOCK" );
+  $plik = file_put_contents( $plik_lock, "LOCK" );
 
 
   echo "START MONKEYS_".$nr_aplikacji."_DB_WU\n";
@@ -113,6 +113,13 @@
     //update nastepny   
     $sql = "UPDATE `generator_".$nr_aplikacji."_nci` SET `nastepna`= '".++$seriaDB["nastepna"]."' WHERE `seria`= '".$seriaDB["seria"]."'";  
     echo $sql;
+	
+	$db_generator1->close();
+	  $db_generator1 = new mysqli($db_generator_serwer, $db_generator_user, $db_generator_haslo, "monkeys_vX_generators", $db_generator_port);
+  if ($db_generator1->connect_error) {
+     die("Błąd połaczenia db_generator1: ".$db_generator1->connect_error);
+  }
+	
     if ($db_generator1->query($sql) === TRUE) {
       echo "Zaktualizowano wpis dla:".$seriaDB["seria"];
     } else {
