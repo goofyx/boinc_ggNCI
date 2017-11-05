@@ -1,13 +1,17 @@
 <?xml version="1.0" ?>
 <boinc>
     <config>
+	
+    <recaptcha_public_key>6Ld7yxATAAAAALjKbqLJXyhULJdo495_zAOqnBde</recaptcha_public_key>
+    <recaptcha_private_key>6Ld7yxATAAAAABqR8kSnaLGhB-5fgwIDwUYfwQbn</recaptcha_private_key>
+	
         <upload_dir>/home/boincadm/goofyx_grid_nci/upload</upload_dir>
         <send_result_abort>1</send_result_abort>
         <long_name>GoofyxGrid@Home NCI</long_name>
         <sched_debug_level>1</sched_debug_level>
         <cache_md5_info>1</cache_md5_info>
         <upload_url>http://nci.goofyxgridathome.net/goofyx_grid_nci_cgi/file_upload_handler</upload_url>
-        <disable_account_creation>0</disable_account_creation>
+        
         <uldl_dir_fanout>1024</uldl_dir_fanout>
         <download_url>http://nci.goofyxgridathome.net/download</download_url>
         <db_user>boincadm</db_user>
@@ -29,17 +33,17 @@
         <ignore_upload_certificates>1</ignore_upload_certificates>
         <db_passwd>boincadm_Haslo123</db_passwd>
         <min_sendwork_interval>6</min_sendwork_interval>
-        <db_host>192.168.200.201:34011</db_host>
-<db_host_1>127.0.0.1</db_host_1>
+<db_host>127.0.0.1</db_host>
 
         <daily_result_quota>500</daily_result_quota>
         <one_result_per_user_per_wu>0</one_result_per_user_per_wu>
         <max_wus_to_send>50</max_wus_to_send>		
 		
-		<disable_account_creation/>		
-		<disable_account_creation_rpc/>
-		<disable_team_creation/>
-        <disable_web_account_creation>0</disable_web_account_creation>
+		<disable_account_creation_/>		
+		<disable_account_creation_rpc_/>
+		<disable_team_creation_/>
+        <disable_web_account_creation_/>
+		<disable_account_creation_/>
 		
     <resend_lost_results>1</resend_lost_results>
     <send_result_abort>1</send_result_abort>
@@ -135,7 +139,7 @@
 	
    <daemon>
       <cmd>feeder -d 1 --purge_stale 15 --priority_order_create_time --allapps</cmd>
-      <disabled>1</disabled>
+      <disabled>0</disabled>
     </daemon>
         <daemon>
             <cmd>transitioner -d 1 </cmd>
@@ -143,10 +147,11 @@
         </daemon>
         <daemon>
             <cmd>file_deleter -d 1 </cmd>
+            <disabled>0</disabled>
         </daemon>
         <daemon>
-            <cmd>db_purge -d 1 --no_archive --min_age_days 14</cmd>
-            <disabled>1</disabled>
+            <cmd>db_purge -d 1 --no_archive --min_age_days 5</cmd>
+            <disabled>0</disabled>
         </daemon>
 		
 	<daemon>
@@ -176,7 +181,7 @@
       <disabled>0</disabled>
     </daemon>  
        
-  
+   
     <daemon>
       <cmd>monkeys_v4_validator -d 1 --credit_from_wu --app monkeys_v4</cmd>
       <disabled>0</disabled>
