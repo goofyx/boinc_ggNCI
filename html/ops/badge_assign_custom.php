@@ -27,19 +27,24 @@
 // See: http://boinc.berkeley.edu/trac/wiki/PerAppCredit
 
 require_once("../inc/util_ops.inc");
+require_once("../inc/badges.inc");
 
 // use $sub_projects defined in project/project.inc
 // (this speeds up the assignment of badges)
 // "total" is a special sub project and should only be defined here
 //
-global $sub_projects;
-$badges_sub_projects = $sub_projects;
+
+
+//global $sub_projects;
 $badges_sub_projects[] = array("name" => "project total", "short_name" => "total");
+
 
 // thresholds for the various badges
 // currently we use the same threshold for all badges (total and subproject)
 // minimum total credits for each level and corresponding names
 //
+
+/*
 $badge_levels = array(
     50000000, 100000000, 250000000, 500000000, 1000000000, 10000000000,
     250000000000, 500000000000
@@ -57,7 +62,7 @@ $badge_images = array(
     "_bronze.png", "_silver.png", "_gold.png", "_amethyst.png",
     "_turquoise.png", "_sapphire.png", "_ruby.png", "_emerald.png"
 );
-
+*/
 // consistency checks
 //
 $num_levels = count($badge_levels);
