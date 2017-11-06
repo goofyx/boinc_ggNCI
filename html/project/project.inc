@@ -9,6 +9,7 @@
 // https://boinc.berkeley.edu/trac/wiki/TranslateProject for details
 
 require_once("../inc/util.inc");
+require_once("../inc/badges.inc");
 
 //-------------- Project name and owner
 
@@ -247,25 +248,18 @@ function show_app_credit_team($team, $app_name, $appids) {
 // - a name, shown on the web site
 // - a short name, used in badge names.  Don't use "total".
 //
-/*
-$sub_projects = array(
-     array("name" => "Monkeys_v1", "short_name" => "monkeys_v1", "appids" => array(5)),
-     array("name" => "Monkeys_v2", "short_name" => "monkeys_v2", "appids" => array(6)),
-     array("name" => "Monkeys_v3", "short_name" => "monkeys_v3", "appids" => array(7)),
-     array("name" => "Monkeys_v4", "short_name" => "monkeys_v4", "appids" => array(8))
- );
-*/
+//$sub_projects = $badges_sub_projects;
 
 function project_user_credit($user){
-    global $sub_projects;
-    foreach ($sub_projects as $sp) {
+	global $badges_sub_projects;
+    foreach ($badges_sub_projects as $sp) {
         show_app_credit_user($user, $sp["name"], $sp["appids"]);
     }
 }
 
 function project_team_credit($team) {
-    global $sub_projects;
-    foreach ($sub_projects as $sp) {
+    global $badges_sub_projects;
+    foreach ($badges_sub_projects as $sp) {
         show_app_credit_team($team, $sp["name"], $sp["appids"]);
     }
 }
