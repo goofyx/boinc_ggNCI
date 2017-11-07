@@ -3,7 +3,7 @@
     
   $nr_aplikacji = $argv[1];
   $id_aplikacji = 0;
-  $prog_generowania = 250000;
+  $prog_generowania = 150000;
 
 
 	include( "monkeys_db_projekt.php" );
