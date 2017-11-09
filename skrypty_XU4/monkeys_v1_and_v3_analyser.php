@@ -17,13 +17,11 @@
 
   $katalog_zrodlowy = $katalog_sr;
   $katalog_docelowy = $katalog_srAnalyzed;
-  $katalog_noUser = $katalog_srNoUser;
-  
+  $katalog_noUser = $katalog_srNoUser; 
   
   $licznik = 0;
   $licznik_2 = 0;  
-  $rozpoczeto = date("Y-m-d H:i:s");
-  
+  $rozpoczeto = date("Y-m-d H:i:s");  
   
    $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
    if ($db_trafienia->connect_error) {
@@ -82,7 +80,15 @@
 	       if (strcmp($nazwa_usera,'')==0)
 	       { 
 		  $sql = "SELECT `user`.`name` FROM `result` left join `user` on `result`.`userid` = `user`.`id` where `result`.`server_state` = 5 AND `result`.`client_state` = 5 AND `result`.`name` LIKE '%".$plik."%'";
-// 	     echo "Zapytanie: ".$sql."\n";	   
+// 	     echo "Zapytanie: ".$sql."\n";
+
+	   if (!$db_projekt->ping()){
+		$db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza, $db_projekt_port);
+		if ($db_projekt->connect_error)  {
+			die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
+		}
+	}
+	
 		  $wynik_user = $db_projekt->query($sql);
 
 		  if ($wynik_user->num_rows > 0) 
@@ -98,6 +104,14 @@
 	       {		       
 		  $sql = "INSERT INTO trafienia_L".$ile_znakow."( data, czas, wyraz_losowany, nazwa_user, nazwa_wu, wyraz_slownik ) VALUES ( "."\"".$data_nowa."\"".", "."\"".$pozycja_array[ 1 ]."\"".", "."\"".$pozycja_array[ 2 ]."\"".", "."\"".$nazwa_usera."\"".", "."\"".$plik."\"".", "."\"".strtolower( $wyraz_slownik )."\""." );";	        	        
 //	          echo $sql."\n";	   
+
+  if (!$db_trafienia->ping()){
+				$db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
+				if ($db_trafienia->connect_error) {
+					die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
+				}
+		}
+		
 		  if (!$db_trafienia->query( $sql ) === TRUE ) echo "Błąd dodawanie do bazy: ".$db_trafienia->error."\n";
 	       }else {
 		  $nazwa_usera = "";
@@ -131,15 +145,17 @@
   
 //zapis danych do przerobione 
 if ( $licznik > 0 ) { 
-
-  $db_trafienia->close();
-  $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
-  if ($db_trafienia->connect_error) {
-    die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
-  }  
   
    $sql = "INSERT INTO przerobione ( rozpoczeto, zakonczono, przerobiono, przerobiono_".$ile_znakow." ) VALUES ( "."\"".$rozpoczeto."\"".", "."\"".date("Y-m-d H:i:s")."\"".", "."\"".$licznik."\"".", "."\"".$licznik_2."\""." );";	        	        
-  if ($db_trafienia->query( $sql ) === TRUE ) {
+
+  if (!$db_trafienia->ping()){
+				$db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
+				if ($db_trafienia->connect_error) {
+					die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
+				}
+		}
+
+   if ($db_trafienia->query( $sql ) === TRUE ) {
    		echo "Dodano wynik do bazy"."\n";
   } else {
      echo "Błąd dodawania przerobu do bazy: ".$db_trafienia->error."\n";
