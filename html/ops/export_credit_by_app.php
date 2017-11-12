@@ -24,9 +24,10 @@
 // This is run by db_dump; you can also run it separately
 
 require_once("../inc/util_ops.inc");
+require_once("../inc/badges.inc");
 
 function export_item($item, $is_user, $f) {
-    global $sub_projects;
+    global $badges_sub_projects;
 
     fprintf($f, $is_user?"<user>\n":"<team>\n");
     fprintf($f, "    <id>$item->id</id>\n");
@@ -34,7 +35,7 @@ function export_item($item, $is_user, $f) {
         BoincCreditUser::enum("userid=$item->id")
         : BoincCreditTeam::enum("teamid=$item->id")
     ;
-    foreach ($sub_projects as $sub_project) {
+    foreach ($badges_sub_projects as $sub_project) {
         $total = 0;
         $average = 0;
         $njobs = 0;
