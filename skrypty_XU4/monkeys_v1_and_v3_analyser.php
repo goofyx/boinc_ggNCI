@@ -8,8 +8,8 @@
   $ile_znakow=$argv[2];
   
   include( "monkeys_db_trafienia.php" );
-  include( "monkeys_db_projekt.php" );
   include( "monkeys_katalogi.php" );  
+  include( "monkeys_common.php" );   
   
   echo "START MONKEYS_".$nr_aplikacji."_ANALYZER: ".$ile_znakow."\n";
   
@@ -22,17 +22,12 @@
   $licznik = 0;
   $licznik_2 = 0;  
   $rozpoczeto = date("Y-m-d H:i:s");  
+  $nazwa_usera = "";
   
    $db_trafienia = new mysqli($db_trafienia_serwer, $db_trafienia_user, $db_trafienia_haslo, "monkeys_".$nr_aplikacji."_trafienia", $db_trafienia_port);
    if ($db_trafienia->connect_error) {
      die("Błąd połaczenia db_trafienia: ".$db_trafienia->connect_error);
-   }
- 
- 
-  $db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza, $db_projekt_port);
-  if ($db_projekt->connect_error)  {
-    die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
-  }         
+   }       
        
   $slownik = file( $katalog_domowy_skrypty.'/monkeys_'.$ile_znakow.'_en.dic' );
   foreach($slownik as $wyraz)
@@ -49,15 +44,9 @@
 	   
 	   $licznik++;
 	// echo "Plik:".$plik."\n"; 
-	 
-	 
-	if ($db_projekt->connect_error)  {
-		die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
-	}
 //          2. porównania ze słownikiemzapis do bazy pozostałych po explode spacji + nazwa usera
 	if (count($wynik_v1) > 0) {	   
-	// echo "SSSSS:".microtime(1)."\n";   	   
-	   $nazwa_usera = "";	
+	// echo "SSSSS:".microtime(1)."\n";  
 	   $licznik_2++;
 	   
 	   foreach ( $wynik_v1 as $pozycja )
@@ -79,25 +68,7 @@
 	     {	       
 	       if (strcmp($nazwa_usera,'')==0)
 	       { 
-		  $sql = "SELECT `user`.`name` FROM `result` left join `user` on `result`.`userid` = `user`.`id` where `result`.`server_state` = 5 AND `result`.`client_state` = 5 AND `result`.`name` LIKE '%".$plik."%'";
-// 	     echo "Zapytanie: ".$sql."\n";
-
-	   if (!$db_projekt->ping()){
-		$db_projekt = new mysqli($db_projekt_serwer, $db_projekt_user, $db_projekt_haslo, $db_projekt_baza, $db_projekt_port);
-		if ($db_projekt->connect_error)  {
-			die("Błąd połaczenia db_projekt: ".$db_projekt->connect_error);
-		}
-	}
-	
-		  $wynik_user = $db_projekt->query($sql);
-
-		  if ($wynik_user->num_rows > 0) 
-		  {
-		    $user = $wynik_user->fetch_assoc();
-		    $nazwa_usera = $user["name"];
-		    $wynik_user->free();	    	       
-		  }    
-		 
+				$nazwa_usera = ResutlNameToUserName( $plik );
 	       }
 	     
 	       if (!strcmp($nazwa_usera,'')==0)
@@ -127,6 +98,7 @@
 	    } 
 
 	unset($wynik_v1);
+    $nazwa_usera = "";
 	
          /////       
     }  
@@ -163,7 +135,6 @@ if ( $licznik > 0 ) {
   }  
   
   $db_trafienia->close();   
-  $db_projekt->close();
   
   unset( $slownik );
   
