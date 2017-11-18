@@ -3,6 +3,8 @@
 	$katalog_domowy_dane = "/home/goofyx/ggNCI";
 	$katalog_domowy_skrypty = "/home/goofyx/ggNCI";
 	
+	$katalog_pid = $katalog_domowy_dane."/pid_ggNCI";
+	
 	$katalog_srAnalyzed = $katalog_domowy_dane."/sample_results_analyzed";
 	$katalog_srNoUser = $katalog_domowy_dane."/sample_results_noUser";
 	

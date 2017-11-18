@@ -3,6 +3,12 @@
   echo "START MONKEYS_PRZEZUT\n";
   
   include( "monkeys_katalogi.php" );  
+  
+  $plik_lock = $katalog_pid."/monkeys_vX_przezut.lock";
+  if (file_exists($plik_lock)){
+   exit;
+  }  
+  $plik = file_put_contents( $plik_lock, "LOCK" );
    
   $katalog_zrodlowy = $katalog_sr_NAS4;
   $katalog_docelowy = $katalog_sr;
@@ -43,6 +49,7 @@
   }
   
   echo "plików: ".$licznik."\n";
+  unlink($plik_lock);
   
   echo "KONIEC MONKEYS_PRZEZUT\n";
 

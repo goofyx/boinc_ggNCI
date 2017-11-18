@@ -9,7 +9,13 @@
   
   include( "monkeys_db_trafienia.php" );
   include( "monkeys_katalogi.php" );  
-  include( "monkeys_common.php" );   
+  include( "monkeys_common.php" );  
+  
+  $plik_lock = $katalog_pid."/monkeys_".$nr_aplikacji."_".$ile_znakow."_analyser.lock";
+  if (file_exists($plik_lock)){
+   exit;
+  }  
+  $plik = file_put_contents( $plik_lock, "LOCK" ); 
   
   echo "START MONKEYS_".$nr_aplikacji."_ANALYZER: ".$ile_znakow."\n";
   
@@ -137,6 +143,7 @@ if ( $licznik > 0 ) {
   $db_trafienia->close();   
   
   unset( $slownik );
+  unlink($plik_lock);
   
   echo "KONIEC MONKEYS_".$nr_aplikacji."_ANALYZER: ".$ile_znakow."\n";
 

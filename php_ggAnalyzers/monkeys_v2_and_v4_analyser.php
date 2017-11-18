@@ -12,6 +12,12 @@
 
   echo "START MONKEYS_".$nr_aplikacji."_ANALYZER\n";
   
+  $plik_lock = $katalog_pid."/monkeys_".$nr_aplikacji."_analyser.lock";
+  if (file_exists($plik_lock)){
+   exit;
+  }  
+  $plik = file_put_contents( $plik_lock, "LOCK" );
+  
   $katalog_zrodlowy = $katalog_sr;
   $katalog_docelowy = $katalog_srAnalyzed;
   $katalog_noUser = $katalog_srNoUser;
@@ -129,6 +135,7 @@ if ( $licznik > 0 ) {
   }
   
   $db_trafienia->close(); 
+  unlink($plik_lock);
   
   echo "KONIEC MONKEYS_".$nr_aplikacji."_ANALYZER\n";
 

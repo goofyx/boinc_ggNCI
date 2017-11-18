@@ -4,6 +4,12 @@
   
   include( "monkeys_katalogi.php" );  
   
+  $plik_lock = $katalog_pid."/monkeys_vX_sorting_files.lock";
+  if (file_exists($plik_lock)){
+   exit;
+  }  
+  $plik = file_put_contents( $plik_lock, "LOCK" );
+  
   
   $katalog_zrodlowy = $katalog_srAnalyzed;
   $katalog_docelowy = $katalog_archives_results_NAS4;
@@ -46,6 +52,7 @@
   }
   
   echo "plików: ".$licznik."\n";
+  unlink($plik_lock);
   
   
   echo "KONIEC MONKEYS_SORTING_FILES\n";
