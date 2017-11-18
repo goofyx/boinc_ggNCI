@@ -10,7 +10,7 @@
 	
   $nr_aplikacji_wu =  str_replace( "_", "-", $nr_aplikacji );
   
-  $plik_lock = "/home/boincadm/goofyx_grid_nci/pid_ggNCI/monkeys_".$nr_aplikacji."_db_wu.lock";
+  $plik_lock = $katalog_pid."/monkeys_".$nr_aplikacji."_db_wu.lock";
   if (file_exists($plik_lock)){
    exit;
   }  
